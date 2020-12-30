@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import QrReader from "react-qr-reader";
+import "./App.css";
 
 function App() {
+  const [result, setResult] = useState("dddd");
+  const qrReader1 = React.useRef(null);
+  function handleScan(data) {
+    if (data) {
+      setResult(data);
+    }
+  }
+  function handleError(err) {
+    console.error(err);
+  }
+  function openImageDialog() {
+    qrReader1.current.openImageDialog();
+  }
+  const previewStyle = {
+    height: 240,
+    width: 320,
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <QrReader
+        ref={qrReader1}
+        delay={300}
+        onError={handleError}
+        legacyMode={true}
+        onScan={handleScan}
+        style={{ width: "100%" }}
+        previewStyle={previewStyle}
+      />
+      <input type="button" value="Submit QR Code" onClick={openImageDialog} />
+      <p>{result}</p>
     </div>
   );
 }
