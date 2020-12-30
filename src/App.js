@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import QrReader from "react-qr-reader";
 import "./App.css";
 
@@ -10,6 +10,24 @@ function App() {
       setResult(data);
     }
   }
+  useEffect(() => {
+    if (navigator.getUserMedia) {
+      navigator.getUserMedia(
+        {
+          video: true,
+        },
+        function (localMediaStream) {},
+        function (err) {
+          alert(
+            "The following error occurred when trying to access the camera: " +
+              err
+          );
+        }
+      );
+    } else {
+      alert("Sorry, browser does not support camera access");
+    }
+  }, []);
   function handleError(err) {
     console.error(err);
   }
@@ -26,10 +44,11 @@ function App() {
         ref={qrReader1}
         delay={300}
         onError={handleError}
-        legacyMode={true}
+        legacyMode
         onScan={handleScan}
         style={{ width: "100%" }}
         previewStyle={previewStyle}
+        facingMode={"environment"}
       />
       <input type="button" value="Submit QR Code" onClick={openImageDialog} />
       <p>{result}</p>
