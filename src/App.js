@@ -44,11 +44,9 @@ function App() {
         ref={qrReader1}
         delay={300}
         onError={handleError}
-        legacyMode
         onScan={handleScan}
         style={{ width: "100%" }}
         previewStyle={previewStyle}
-        facingMode={"environment"}
       />
       <input type="button" value="Submit QR Code" onClick={openImageDialog} />
       <p>{result}</p>
